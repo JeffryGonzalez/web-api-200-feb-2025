@@ -43,25 +43,13 @@ public class EmployeeRepository(IDocumentSession session)
         return null;
     }
 }
-
-// our "service" from last class.
-
-public class Employee(EmployeeEntity entity, EmployeeRepository repository)
-{
-    public Guid Id { get; } = entity.Id;
-
-    public async Task SaveAsync(CancellationToken token =default)
-    {
-        await repository.SaveAsync(entity, token);
-    }
-   
-
-}
 // Our "persistence model" - what we are saving, etc.
 public class EmployeeEntity
 {
     public Guid Id { get; set; }
     // Network Id, verified identity, etc.
     public string Sub { get; set; } = string.Empty;
+
+    public List<ProblemSubmitted> Problems { get; set; } = new();
     
 }
