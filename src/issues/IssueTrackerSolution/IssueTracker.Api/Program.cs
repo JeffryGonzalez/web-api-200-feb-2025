@@ -1,5 +1,6 @@
 using IssueTracker.Api;
 using IssueTracker.Api.Catalog.Api;
+using IssueTracker.Api.Employee.Api;
 using IssueTracker.Api.Utils;
 using Scalar.AspNetCore;
 
@@ -29,6 +30,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapIssueTracker();
+
 
 
 app.Run();
