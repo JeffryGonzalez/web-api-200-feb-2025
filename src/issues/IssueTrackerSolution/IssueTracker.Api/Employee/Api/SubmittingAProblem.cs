@@ -9,7 +9,7 @@ public static class SubmittingAProblem
 {
     public static async  Task<Ok> SubmitAsync(
         ProblemSubmitModel request,
-        HttpContext context,
+      
         Guid softwareId,
         CancellationToken token
         )
