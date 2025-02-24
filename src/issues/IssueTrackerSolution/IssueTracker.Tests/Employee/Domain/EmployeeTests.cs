@@ -1,7 +1,9 @@
 ﻿
+using System.Threading.Tasks;
 using IssueTracker.Api.Employee.Domain;
 using IssueTracker.Tests.Fixtures;
 using Marten;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IssueTracker.Tests.Employee.Domain;
 
@@ -11,7 +13,7 @@ public class EmployeeTests(UnitIntegrationTestFixture fixture)
 {
     [Fact]
 
-    public void CanCreateAnEmployee()
+    public async Task CanCreateAnEmployee()
     {
         IDocumentSession session = fixture.Store.LightweightSession(); 
 
@@ -20,8 +22,18 @@ public class EmployeeTests(UnitIntegrationTestFixture fixture)
         var sub = "bob@company";
         var emp = repository.Create(sub);
 
-        
+        // I want to save it to the database (we do this through the aggregate)
+        await emp.SaveAsync();
+        // and make sure it got saved.
 
+        var emp2 = await repository.GetByIdAsync(emp.Id);
+
+        Assert.NotNull(emp2);
+        Assert.Equal(emp.Id, emp2.Id);
+
+        var emp3 = await repository.GetBySubAsync(sub);
+        Assert.NotNull(emp3);
+        // Assert.Equal(/// No sub ?? We should probably check that)
 
 
 
