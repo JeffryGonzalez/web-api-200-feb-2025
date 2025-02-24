@@ -1,18 +1,28 @@
 ﻿
+using IssueTracker.Api.Employee.Domain;
+using IssueTracker.Tests.Fixtures;
+using Marten;
+
 namespace IssueTracker.Tests.Employee.Domain;
 
-public class EmployeeTests
+[Trait("Category", "UnitIntegration")] // this is metadata so we can run just some of these at a time.
+[Collection("UnitIntegration")] // everything here should use the same database as everything else in this "collection"
+public class EmployeeTests(UnitIntegrationTestFixture fixture)
 {
     [Fact]
+
     public void CanCreateAnEmployee()
     {
-        // I need to ask something to create an employee for me?
-        // what do I need to do that?
+        IDocumentSession session = fixture.Store.LightweightSession(); 
 
-        //var employee = new Employee();
-        //employee.CreateProblem("microsoft word", "it sucks");
 
-        // more stuff. blah blah blah
+        var repository = new EmployeeRepository(session); // a thing that handles persistence.
+        var sub = "bob@company";
+        var emp = repository.Create(sub);
+
+        
+
+
 
 
     }
