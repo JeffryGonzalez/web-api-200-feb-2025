@@ -1,9 +1,9 @@
 ﻿
 
-using IssueTracker.Api.Employee.Domain;
+using IssueTracker.Api.Employees.Domain;
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace IssueTracker.Api.Employee.Api;
+namespace IssueTracker.Api.Employees.Api;
 
 public static class SubmittingAProblem
 {
@@ -14,6 +14,8 @@ public static class SubmittingAProblem
         CancellationToken token
         )
     {
+        // look up in the database to make sure we have the software with that id.
+        // if not, return an error (404)
        
         var problem = new SubmitProblem(softwareId, request.Description);
         //var emp = new Employee.Domain.Employee(null, null);

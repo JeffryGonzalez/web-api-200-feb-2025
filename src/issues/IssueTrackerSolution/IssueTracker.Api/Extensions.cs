@@ -1,5 +1,5 @@
 using IssueTracker.Api.Catalog.Api;
-using IssueTracker.Api.Employee.Api;
+using IssueTracker.Api.Employees.Api;
 using Marten;
 using Npgsql;
 

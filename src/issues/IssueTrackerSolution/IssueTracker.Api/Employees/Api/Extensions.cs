@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Api.Employee.Api;
+﻿namespace IssueTracker.Api.Employees.Api;
 
 public static class Extensions
 {
