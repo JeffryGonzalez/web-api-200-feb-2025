@@ -1,20 +1,29 @@
 ﻿using IssueTracker.Api.Employees.Api;
 using IssueTracker.Api.Employees.Domain;
+using IssueTracker.Api.Middleware;
 
 namespace IssueTracker.Api.Employees.Services;
 
-public class CurrentEmployeeCommandProcessor(IHttpContextAccessor context) : IProcessCommandsForTheCurrentEmployee
+public class CurrentEmployeeCommandProcessor(IHttpContextAccessor context,
+    EmployeeRepository repository) : IProcessCommandsForTheCurrentEmployee
 {
-    public Task<ProblemSubmitted> ProcessProblemAsync(SubmitProblem problem)
+    public async Task<ProblemSubmitted> ProcessProblemAsync(SubmitProblem problem)
     {
-        var sub = context?.HttpContext?.User.Identity?.Name ?? throw new Exception("This should never happen");
-
-        // but we need the employee to do this,
         // we need the sub claim
+        var sub = context?.HttpContext?.User.Identity?.Name ?? throw new ChaosException("This should never happen");
+        var employee = await repository.GetBySubAsync(sub);
+        if (employee is null)
+        {
+            employee = repository.Create(sub);
+            
+        }
+       var result = employee.Process(problem);
+       await employee.SaveAsync();
+
         // look it up in the database, if isn't there, create it
         // if it is there, load, tell it process this command, 
         // save it. 
         // return the ProblemSubmitted.
-        throw new Exception();
+        return result;
     }
 }

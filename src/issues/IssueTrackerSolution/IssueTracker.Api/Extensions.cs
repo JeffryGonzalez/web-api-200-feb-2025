@@ -1,5 +1,6 @@
 using IssueTracker.Api.Catalog.Api;
 using IssueTracker.Api.Employees.Api;
+using IssueTracker.Api.Employees.Domain;
 using IssueTracker.Api.Employees.Services;
 using Marten;
 using Npgsql;
@@ -15,7 +16,7 @@ public static class Extensions
         
         // .net 8 and forward - good idea.
         services.AddSingleton<TimeProvider>(_ => TimeProvider.System);
-
+        services.AddScoped<EmployeeRepository>();
         services.AddScoped<IProcessCommandsForTheCurrentEmployee, CurrentEmployeeCommandProcessor>();
         services.AddAuthorization();
         services.AddAuthentication().AddJwtBearer();
