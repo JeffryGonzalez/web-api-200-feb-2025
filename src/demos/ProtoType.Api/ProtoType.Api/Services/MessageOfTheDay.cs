@@ -1,14 +1,14 @@
 ﻿namespace ProtoType.Api.Services;
 
-public class MessageOfTheDay(string message)
+public class MessageOfTheDay(HitCounter counter) 
 {
 
-    
+
 
     public string GetMessageOfTheDay()
     {
-        return message;
+        return $"Things look good! Counter is a t {counter.Count}";
     }
 
-   
+
 }

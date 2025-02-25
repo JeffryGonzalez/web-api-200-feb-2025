@@ -35,16 +35,19 @@ builder.Services.AddHttpClient("amazon", client =>
 
 
 // configurable but lazy
-builder.Services.AddSingleton<HitCounter>(); // This is lazy creation
+
+builder.Services.AddScoped<HitCounter>(); // This is lazy creation
 
 //var messageServicetoUse = new MessageOfTheDay("this was created eagerly");
 //builder.Services.AddSingleton(() => messageServicetoUse); 
-builder.Services.AddSingleton<MessageOfTheDay>((sp) =>
+builder.Services.AddSingleton<MessageOfTheDay>(sp =>
 {
-
+    using var scope = sp.CreateScope();
+    var gh = scope.ServiceProvider.GetRequiredService<GitHubHttpClient>();
     var hc = sp.GetRequiredService<HitCounter>();
-    return new MessageOfTheDay($"This was created on first call {hc.Count} as at when I was born ");
+    return new MessageOfTheDay(hc);
 });
+
 var app = builder.Build(); // Life before this line and life after this.
 // from here on, the services collection cannot be modified.
 // all about what to expose and how to handle incoming requests
@@ -64,8 +67,9 @@ app.UseAuthorization();
 
 app.MapControllers(); // Create the route table.
 
-app.MapGet("/cinnamon-roll", (HitCounter hitCounter) =>
+app.MapGet("/cinnamon-roll", (HitCounter hitCounter, HttpContext context) =>
 {
+   
     hitCounter.Increment();
     return $"Those are good too ({hitCounter.Count})";
 });

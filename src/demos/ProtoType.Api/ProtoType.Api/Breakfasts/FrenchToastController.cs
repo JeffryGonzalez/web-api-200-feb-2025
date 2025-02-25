@@ -12,7 +12,7 @@ public class FrenchToastController(HitCounter hitCounter, MessageOfTheDay messag
   
     public ActionResult Get()
     {
-
+       
         
         hitCounter.Increment();
        

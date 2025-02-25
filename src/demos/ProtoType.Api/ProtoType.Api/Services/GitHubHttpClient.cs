@@ -3,7 +3,7 @@ using ProtoType.Api.Multi;
 
 namespace ProtoType.Api.Services;
 
-public class GitHubHttpClient
+public class GitHubHttpClient : IGetProjectCountFromGithub
 {
 
     // knows how to do all things related to github,
