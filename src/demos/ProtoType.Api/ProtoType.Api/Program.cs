@@ -1,3 +1,4 @@
+using ProtoType.Api.Multi;
 using ProtoType.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,11 @@ builder.Services.AddOpenApi();
 builder.Services.AddHttpClient<GitHubHttpClient>(client =>
 {
     client.BaseAddress = new Uri("https://github.com"); // this would come from config, probably.
+});
+
+builder.Services.AddScoped<IGetProjectCountFromGithub>(sp =>
+{
+    return sp.GetRequiredService<GitHubHttpClient>();
 });
 //builder.Services.AddHttpClient("github", client =>
 //{
