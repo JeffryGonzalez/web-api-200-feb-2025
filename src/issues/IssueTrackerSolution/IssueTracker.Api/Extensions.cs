@@ -17,7 +17,7 @@ public static class Extensions
         
         services.AddAuthorization();
         services.AddAuthentication().AddJwtBearer();
-        
+
         // We'll use this later, for when our aggregates need to the context.
         services.AddHttpContextAccessor();
         
