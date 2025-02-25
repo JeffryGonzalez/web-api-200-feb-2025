@@ -16,7 +16,8 @@ public static class SubmittingAProblem
     {
        
         var problem = new SubmitProblem(softwareId, request.Description);
-
+        //var emp = new Employee.Domain.Employee(null, null);
+        //var problemSubmitted = emp.Process(problem);
      
         return TypedResults.Ok();
     }
