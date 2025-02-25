@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using IssueTracker.Api.Catalog.Api;
 using IssueTracker.Api.Employees.Api;
 using IssueTracker.Api.Employees.Domain;
@@ -19,7 +20,12 @@ public static class Extensions
         services.AddScoped<EmployeeRepository>();
         services.AddScoped<IProcessCommandsForTheCurrentEmployee, CurrentEmployeeCommandProcessor>();
         services.AddAuthorization();
-        services.AddAuthentication().AddJwtBearer();
+        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+        services.AddAuthentication().AddJwtBearer(opts =>
+        {
+            
+            opts.MapInboundClaims = true;
+        });
 
         // We'll use this later, for when our aggregates need to the context.
         services.AddHttpContextAccessor();
