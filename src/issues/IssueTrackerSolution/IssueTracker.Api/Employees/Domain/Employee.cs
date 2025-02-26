@@ -27,7 +27,7 @@ public class Employee(EmployeeEntity entity, EmployeeRepository repository)
 }
 
 // commands are like commands - do this. 
-public record SubmitProblem(Guid SoftwareId, string Description);
+public record SubmitProblem(Guid SoftwareId, Guid EmployeeId, string Description);
 
 // events are past tense - this thing happened
 public record ProblemSubmitted(Guid Id, Guid SoftwareId, Guid EmployeeId, string Description, DateTimeOffset Created);

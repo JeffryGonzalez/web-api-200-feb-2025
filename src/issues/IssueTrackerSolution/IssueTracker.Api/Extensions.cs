@@ -40,6 +40,7 @@ public static class Extensions
         services.AddMarten(config =>
         {
             config.Connection(connectionString);
+            config.Projections.Snapshot<AuthenticatedUser>(Marten.Events.Projections.SnapshotLifecycle.Inline);
 
         }).UseNpgsqlDataSource().UseLightweightSessions();
 

@@ -1,6 +1,7 @@
 ﻿
 using System.ComponentModel;
 using IssueTracker.Api.Employees.Domain;
+using IssueTracker.Api.Employees.Services;
 using IssueTracker.Tests.Fixtures;
 
 namespace IssueTracker.Tests.Employees.Domain;
@@ -13,6 +14,7 @@ public class CurrentEmployeeCommandProcessorTests(UnitIntegrationTestFixture fix
     {
         var session = fixture.Store.LightweightSession();
         var repository = new EmployeeRepository(session);
+
         
         
     }

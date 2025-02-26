@@ -77,6 +77,8 @@ public class SubmittingAProblem(EmployeeHostedIntegrationTest fixture)
         var savedUser = await repository.GetBySubAsync(sub);
 
         Assert.NotNull(savedUser);
+
+        // We have to do something here.
     }
     
 
