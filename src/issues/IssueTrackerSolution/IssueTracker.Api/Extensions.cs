@@ -25,7 +25,7 @@ public static class Extensions
         services.AddAuthentication().AddJwtBearer(opts =>
         {
             
-            opts.MapInboundClaims = true;
+            opts.MapInboundClaims = false;
         });
 
         // We'll use this later, for when our aggregates need to the context.
