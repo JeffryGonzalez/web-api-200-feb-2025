@@ -8,7 +8,7 @@ namespace IssueTracker.Tests.Employees.Domain;
 [Collection("UnitIntegration")]
 public class CurrentEmployeeCommandProcessorTests(UnitIntegrationTestFixture fixture)
 {
-    [Fact]
+    [Fact(Skip = "Delete this... for demonstration purposes...")]
     public async Task NoEmployeeExistsButIsCreated()
     {
         var session = fixture.Store.LightweightSession();

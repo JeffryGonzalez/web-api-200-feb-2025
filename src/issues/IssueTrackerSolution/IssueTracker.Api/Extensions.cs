@@ -3,6 +3,7 @@ using IssueTracker.Api.Catalog.Api;
 using IssueTracker.Api.Employees.Api;
 using IssueTracker.Api.Employees.Domain;
 using IssueTracker.Api.Employees.Services;
+using IssueTracker.Api.Middleware;
 using Marten;
 using Npgsql;
 
@@ -30,7 +31,7 @@ public static class Extensions
         // We'll use this later, for when our aggregates need to the context.
         services.AddHttpContextAccessor();
         
-        var connectionString = host.Configuration.GetConnectionString("postgres") ?? throw new InvalidOperationException("No connection string found");
+        var connectionString = host.Configuration.GetConnectionString("postgres") ?? throw new ChaosException("No connection string found");
 
         var npgDataSource = NpgsqlDataSource.Create(connectionString);
         

@@ -18,12 +18,10 @@ public class GlobalChaosExceptionHandler(
         catch (ChaosException ex)
         {
             logger.LogError(ex, "Chaos Exception");
+            // whatever else you might want to do.
+            throw;
 
         }
-        catch
-        {
-            logger.LogError("An unexpected error occurred");
-            throw;
-        }
+      
     }
 }

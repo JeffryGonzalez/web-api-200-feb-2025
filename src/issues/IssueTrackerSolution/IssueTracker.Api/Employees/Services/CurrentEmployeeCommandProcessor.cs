@@ -23,11 +23,6 @@ public class CurrentEmployeeCommandProcessor(IHttpContextAccessor context,
         }
        var result = employee.Process(problem);
        await employee.SaveAsync();
-
-        // look it up in the database, if isn't there, create it
-        // if it is there, load, tell it process this command, 
-        // save it. 
-        // return the ProblemSubmitted.
         return result;
     }
 }
