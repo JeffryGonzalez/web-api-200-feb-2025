@@ -2,7 +2,7 @@
 using IssueTracker.Api.Employees.Api;
 using IssueTracker.Api.Employees.Domain;
 using IssueTracker.Api.Middleware;
-using JasperFx.Core;
+
 
 namespace IssueTracker.Api.Employees.Services;
 

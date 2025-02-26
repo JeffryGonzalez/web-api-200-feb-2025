@@ -96,18 +96,13 @@ public class EmployeeHostedIntegrationTest : HostedUnitIntegrationTestFixture
 
     protected override void ConfigureServices(IServiceCollection services)
     {
-        var fakeEmloyeeProvider = Substitute.For<IProcessCommandsForTheCurrentEmployee>();
-        var fakeEmployeeEntity = new EmployeeEntity
-        {
-            Id = Guid.NewGuid()
-        };
-        fakeEmloyeeProvider.ProcessProblemAsync(Arg.Any<SubmitProblem>()).Returns(Task.FromResult(new ProblemSubmitted(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), "tacos", DateTimeOffset.UtcNow)));
-
-       // services.AddScoped<IProcessCommandsForTheCurrentEmployee>(_ => fakeEmloyeeProvider);
+       // for things that don't exist yet.
     }
 
     protected override void ConfigureTestServices(IServiceCollection services)
     {
+        // for things that do exist, but you want to replace in your test with another thing.
+
         base.ConfigureTestServices(services);
     }
 }
