@@ -1,5 +1,7 @@
 ﻿
 
+using System.Security.Claims;
+using Alba;
 using Alba.Security;
 using IssueTracker.Api.Employees.Api;
 using IssueTracker.Api.Employees.Domain;
@@ -24,17 +26,14 @@ public class SubmittingAProblem(EmployeeHostedIntegrationTest fixture)
         var problem = new ProblemSubmitModel("Thing is broke real bad");
         var response = await fixture.Host.Scenario(api =>
         {
-            api.Post
+            api
+                .WithClaim(new Claim("sub", "bob@company.com"));
+                api.Post
             .Json(problem)
             .ToUrl($"/employee/software/{SeededSoftware.DockerDesktop}/problems");
         });
 
-        //var responseBody = response.ReadAsJson<SubmittingAProblem>();
-        //Assert.NotNull(responseBody);
-
-        // get the employee id 
-        // verify the software exists
-        // figure out what the API should return for this.
+       // we should probably verify something here, right?
 
 
     }
@@ -46,13 +45,42 @@ public class SubmittingAProblem(EmployeeHostedIntegrationTest fixture)
         
         var response = await fixture.Host.Scenario(api =>
         {
+        
             api.Post
-            .Json(problem)
-            .ToUrl($"/employee/software/{SeededSoftware.NotPresentInCatalog}/problems");
+                .Json(problem)
+                .ToUrl($"/employee/software/{SeededSoftware.NotPresentInCatalog}/problems");
             api.StatusCodeShouldBe(404);
             
         });
     }
+
+    [Fact]
+    public async Task EmployeeIsCreatedForNewSub()
+    {
+        var sub = "carlo@gmail.com";
+        var session = fixture.Store!.LightweightSession();
+        var repository = new EmployeeRepository(session);
+        var nonUser = await repository.GetBySubAsync(sub);
+        Assert.Null(nonUser);
+        var problem = new ProblemSubmitModel("Thing is broke real bad");
+
+        await fixture.Host.Scenario(api =>
+        {
+            
+            api.WithClaim(new Claim("sub", sub));
+            api.Post
+                .Json(problem)
+                .ToUrl($"/employee/software/{SeededSoftware.DockerDesktop}/problems");
+            api.StatusCodeShouldBeSuccess();
+        });
+
+        var savedUser = await repository.GetBySubAsync(sub);
+
+        Assert.NotNull(savedUser);
+    }
+    
+
+    
 
 }
 
@@ -62,7 +90,8 @@ public class EmployeeHostedIntegrationTest : HostedUnitIntegrationTestFixture
 {
     protected override AuthenticationStub GetAuthenticationStub()
     {
-        return new AuthenticationStub().WithName("bob@company.com");
+        return base.GetAuthenticationStub();
+        // return new AuthenticationStub().WithName("bob@company.com");
     }
 
     protected override void ConfigureServices(IServiceCollection services)
@@ -74,7 +103,7 @@ public class EmployeeHostedIntegrationTest : HostedUnitIntegrationTestFixture
         };
         fakeEmloyeeProvider.ProcessProblemAsync(Arg.Any<SubmitProblem>()).Returns(Task.FromResult(new ProblemSubmitted(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), "tacos", DateTimeOffset.UtcNow)));
 
-        services.AddScoped<IProcessCommandsForTheCurrentEmployee>(_ => fakeEmloyeeProvider);
+       // services.AddScoped<IProcessCommandsForTheCurrentEmployee>(_ => fakeEmloyeeProvider);
     }
 
     protected override void ConfigureTestServices(IServiceCollection services)

@@ -1,13 +1,8 @@
-﻿
-using System.Threading.Tasks;
-using IssueTracker.Api.Employees.Domain;
+﻿using IssueTracker.Api.Employees.Domain;
 using IssueTracker.Tests.Fixtures;
 using Marten;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.DependencyInjection;
-using Shouldly;
 
-namespace IssueTracker.Tests.Employee.Domain;
+namespace IssueTracker.Tests.Employees.Domain;
 
 [Trait("Category", "UnitIntegration")] // this is metadata so we can run just some of these at a time.
 [Collection("UnitIntegration")] // everything here should use the same database as everything else in this "collection"
