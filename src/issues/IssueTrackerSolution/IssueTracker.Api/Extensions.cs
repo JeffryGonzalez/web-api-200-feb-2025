@@ -5,6 +5,7 @@ using IssueTracker.Api.Employees.Domain;
 using IssueTracker.Api.Employees.Services;
 using IssueTracker.Api.Middleware;
 using Marten;
+using Marten.Events.Projections;
 using Npgsql;
 
 
@@ -19,7 +20,7 @@ public static class Extensions
         // .net 8 and forward - good idea.
         services.AddSingleton<TimeProvider>(_ => TimeProvider.System);
         services.AddScoped<EmployeeRepository>();
-        services.AddScoped<IProcessCommandsForTheCurrentEmployee, CurrentEmployeeCommandProcessor>();
+        services.AddScoped<IProvideTheEmployeeId, EmployeeIdProvider>();
         services.AddAuthorization();
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         services.AddAuthentication().AddJwtBearer(opts =>
@@ -40,7 +41,10 @@ public static class Extensions
         services.AddMarten(config =>
         {
             config.Connection(connectionString);
-            config.Projections.Snapshot<AuthenticatedUser>(Marten.Events.Projections.SnapshotLifecycle.Inline);
+            config.Projections.Snapshot<EmployeeProblem>(SnapshotLifecycle.Inline);
+            config.Projections.Snapshot<AuthenticatedUser>(SnapshotLifecycle.Inline);
+            
+            
 
         }).UseNpgsqlDataSource().UseLightweightSessions();
 

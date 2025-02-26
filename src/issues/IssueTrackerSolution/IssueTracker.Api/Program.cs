@@ -14,6 +14,8 @@ builder.AddIssueTrackerServices();
 
 var app = builder.Build();
 
+app.MapGroup(string.Empty).AddEndpointFilter<AuthenticatedUserMakesARequestMiddleware>();
+
 app.UseAuthentication();
 app.UseAuthorization();
 // Configure the HTTP request pipeline.

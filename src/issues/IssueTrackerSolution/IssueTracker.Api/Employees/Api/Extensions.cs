@@ -7,16 +7,20 @@ public static class Extensions
 {
     public static IEndpointRouteBuilder MapEmployees(this IEndpointRouteBuilder routes)
     {
-
-
         var group = routes.MapGroup("employee")
             .WithTags("Employees")
             .WithDescription("Employee Related Stuff")
-            .RequireAuthorization()
-            .AddEndpointFilter<AuthenticatedUserMakesARequestMiddleware>(); // Check to make sure there is a trusted JWT on the Authorization header.
+            .RequireAuthorization();
 
-        group.MapPost("/software/{softwareId:guid}/problems", SubmittingAProblem.SubmitAsync)
-            .AddEndpointFilter<SoftwareMustExistInCatalogEndpointFilter>();
+        group.MapPost("/software/{softwareId:guid}/problems", SubmittingAProblem.SubmitAsync);
+           
+        
+        // TODO: Should this have the Endpoint Filter?
+        group.MapGet("/software/{softwareId:guid}/problems", GettingProblems.GetAllProblemsAsync)
+            .AddEndpointFilter<ReturnNotFoundIfNoUserFilter>();
+        group.MapGet("/software/{softwareId:guid}/problems/{problemId:guid}", GettingProblems.GetProblemAsync);
+        
+        group.MapDelete("/software/{softwareId:guid}/problems/{problemId:guid}", CancellingAProblem.CancelAProblemAsync);
 
         return routes;
     }

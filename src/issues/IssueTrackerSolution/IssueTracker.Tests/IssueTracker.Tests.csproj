@@ -31,4 +31,8 @@
       <ProjectReference Include="..\IssueTracker.Api\IssueTracker.Api.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Employees\Domain\" />
+    </ItemGroup>
+
 </Project>

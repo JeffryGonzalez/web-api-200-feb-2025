@@ -64,7 +64,7 @@ public class SubmittingAProblem(EmployeeHostedIntegrationTest fixture)
         Assert.Null(nonUser);
         var problem = new ProblemSubmitModel("Thing is broke real bad");
 
-        await fixture.Host.Scenario(api =>
+        var postReponse = await fixture.Host.Scenario(api =>
         {
             
             api.WithClaim(new Claim("sub", sub));
