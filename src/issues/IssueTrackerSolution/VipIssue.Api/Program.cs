@@ -1,3 +1,4 @@
+using IssueTrackerShared;
 using Marten;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +21,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.MapPost("/vips/notifications", async (VipIssueCreateModel request, IDocumentSession session) =>
+app.MapPost("/vip/notifications", async (VipIssueCreateModel request, IDocumentSession session) =>
 {
     var response = new VipIssueResponseModel(
         Guid.NewGuid(),
@@ -45,6 +46,3 @@ app.Run();
 
 public partial class Program { }
 
-public record VipIssueCreateModel(string Problem, string Description);
-
-public record VipIssueResponseModel(Guid Id, string Problem, string Description, string Status);

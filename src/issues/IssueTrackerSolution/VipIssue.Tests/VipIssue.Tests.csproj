@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IssueTrackerShared\IssueTrackerShared.csproj" />
     <ProjectReference Include="..\VipIssue.Api\VipIssue.Api.csproj" />
   </ItemGroup>
 

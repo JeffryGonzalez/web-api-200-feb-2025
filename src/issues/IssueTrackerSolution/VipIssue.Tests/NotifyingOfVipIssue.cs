@@ -1,5 +1,6 @@
 ﻿
 using Alba;
+using IssueTrackerShared;
 
 namespace VipIssue.Tests;
 

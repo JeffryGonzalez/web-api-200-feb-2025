@@ -19,8 +19,19 @@ public static class Extensions
 
         // .net 8 and forward - good idea.
         services.AddSingleton<TimeProvider>(_ => TimeProvider.System);
+        services.AddScoped<ICheckForVipEmployees, EveryoneIsAVip>();
+        var notificationApiUrl = host.Configuration.GetConnectionString("vips") ?? throw new ChaosException("Need a URL for the VIP API");
+        services.AddHttpClient<VipNotifier>(client =>
+        {
+            client.BaseAddress = new Uri(notificationApiUrl);
+        });
 
+        services.AddScoped<INotifyTheVipApiOfAProblem>(sp =>
+        {
+            return sp.GetRequiredService<VipNotifier>();
+        });
         services.AddScoped<IProvideTheEmployeeId, EmployeeIdProvider>();
+
         services.AddAuthorization();
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         services.AddAuthentication().AddJwtBearer(opts =>

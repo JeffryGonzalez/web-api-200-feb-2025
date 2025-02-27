@@ -25,6 +25,7 @@ public record EmployeeProblemReadModel
         };
     }
 
+    public static EmployeeProblemReadModel Apply(ProblemSubmittedtoVipIssues _, EmployeeProblemReadModel model) => model with { Status = "Submitted For VIP Treatment" };
     public static bool ShouldDelete(ProblemCancelledByUser _) => true;
 
 }
