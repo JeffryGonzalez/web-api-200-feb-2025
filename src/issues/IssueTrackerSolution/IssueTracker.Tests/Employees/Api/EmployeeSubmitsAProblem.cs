@@ -26,13 +26,13 @@ public class EmployeeSubmitsAProblem(ProblemSubmissionFixture fixture)
     public async Task SubmittingAProblem()
     {
         var postModel = new ProblemSubmitModel("Has issues");
-         var postResponse = await fixture.Host.Scenario(api =>
-        {
-            api.WithClaim(new Claim("sub", "byron"));
-            api.Post.Json(postModel).ToUrl($"/employee/software/{SeededSoftware.Rider}/problems");
-            api.StatusCodeShouldBe(201);
+        var postResponse = await fixture.Host.Scenario(api =>
+       {
+           api.WithClaim(new Claim("sub", "byron"));
+           api.Post.Json(postModel).ToUrl($"/employee/software/{SeededSoftware.Rider}/problems");
+           api.StatusCodeShouldBe(201);
 
-        });
+       });
 
         var postBody = postResponse.ReadAsJson<EmployeeProblemReadModel>();
         postBody.Description.ShouldBe("Has issues");
@@ -54,16 +54,16 @@ public class EmployeeSubmitsAProblem(ProblemSubmissionFixture fixture)
     }
 
 
-    
+
 }
 
 public class ProblemSubmissionFixture : HostedUnitIntegrationTestFixture
 {
-    
+
 }
 
 [CollectionDefinition("SubmittingProblems")]
 public class ProblemSubmissionCollection : ICollectionFixture<ProblemSubmissionFixture>
 {
-    
+
 }

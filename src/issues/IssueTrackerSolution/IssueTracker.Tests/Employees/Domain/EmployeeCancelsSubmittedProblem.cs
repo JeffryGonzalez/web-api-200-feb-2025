@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IssueTracker.Api.Employees.Api;
+﻿using IssueTracker.Api.Employees.Api;
 using IssueTracker.Api.Middleware;
 using IssueTracker.Tests.Fixtures;
 using Shouldly;
@@ -47,7 +42,7 @@ public class EmployeeCancelsSubmittedProblem(UnitIntegrationTestFixture fixture)
         Assert.Null(readModelAfterCancel);
 
 
-      
+
 
 
         // have the employee submit a problem

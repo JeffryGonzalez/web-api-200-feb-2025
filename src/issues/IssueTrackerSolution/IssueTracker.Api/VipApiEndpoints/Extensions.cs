@@ -1,8 +1,5 @@
 ﻿using IssueTracker.Api.Employees.Api;
 using Marten;
-using Marten.Events.Aggregation;
-using Marten.Events.Projections;
-using Microsoft.CodeAnalysis;
 
 namespace IssueTracker.Api.VipApiEndpoints;
 
@@ -48,6 +45,6 @@ public record VipIssueReadModel
     }
 
     public static VipIssueReadModel Apply(ProblemCancelledByUser @event, VipIssueReadModel model) => model with { Status = "Employee Cancelled" };
-   
+
 }
 

@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using IssueTracker.Api.Employees.Api;
 using IssueTracker.Api.Middleware;
 using Marten;
 

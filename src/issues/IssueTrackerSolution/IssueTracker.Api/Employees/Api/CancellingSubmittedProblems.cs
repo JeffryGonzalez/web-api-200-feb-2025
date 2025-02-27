@@ -7,7 +7,7 @@ public static class CancellingSubmittedProblems
 {
 
     public static async Task<Results<NoContent, Conflict<string>>> CancelAProblem(
-        
+
         Guid problemId,
         IDocumentSession session,
         CancellationToken token
@@ -17,12 +17,12 @@ public static class CancellingSubmittedProblems
 
         var problem = await session.LoadAsync<EmployeeProblemReadModel>(problemId);
 
-        if(problem is null)
+        if (problem is null)
         {
             return TypedResults.NoContent();
         }
 
-        if(problem.Status != "Submitted")
+        if (problem.Status != "Submitted")
         {
             return TypedResults.Conflict("Cannot be cancelled in this state");
         }

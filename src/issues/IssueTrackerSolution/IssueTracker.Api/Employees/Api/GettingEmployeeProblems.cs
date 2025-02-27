@@ -18,10 +18,11 @@ public static class GettingEmployeeProblems
 
         var employeeId = await employeeProvider.GetEmployeeIdAsync();
         var problem = await session.Query<EmployeeProblemReadModel>().Where(p => p.Id == problemId && p.SoftwareId == softwareId && p.EmployeeId == employeeId).SingleOrDefaultAsync();
-        if(problem is null)
+        if (problem is null)
         {
             return TypedResults.NotFound();
-        } else
+        }
+        else
         {
             return TypedResults.Ok(problem);
         }

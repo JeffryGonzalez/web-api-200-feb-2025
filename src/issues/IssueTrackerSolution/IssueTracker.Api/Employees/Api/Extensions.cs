@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using IssueTracker.Api.Employees.Services;
+﻿using IssueTracker.Api.Employees.Services;
 using IssueTracker.Api.Middleware;
 
 namespace IssueTracker.Api.Employees.Api;
@@ -12,7 +11,7 @@ public static class Extensions
             .WithTags("Employees") // just add this to the documentation (openapi)
             .WithDescription("Employee Related Stuff")
             .RequireAuthorization() // simply make sure they have a valid token
-            
+
             .AddEndpointFilter<AuthenticatedUserToEmployeeMiddleware>();
 
         employeeGroup.MapPost("/software/{softwareId:guid}/problems", SubmittingAProblem.SubmitAsync)
@@ -23,9 +22,9 @@ public static class Extensions
         employeeGroup.MapGet("/software/{softwareId:guid}/problems", GettingEmployeeProblems.GetAllProblems);
 
         employeeGroup.MapDelete("/software/{softwareId:guid}/problems/{problemId:guid}", CancellingSubmittedProblems.CancelAProblem);
-       
 
-      
+
+
         return routes;
     }
 }
