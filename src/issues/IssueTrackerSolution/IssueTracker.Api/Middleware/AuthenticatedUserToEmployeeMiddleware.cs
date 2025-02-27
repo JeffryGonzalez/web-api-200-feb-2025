@@ -25,9 +25,6 @@ public class AuthenticatedUserMakesARequestMiddleware(IDocumentSession session) 
             {
                 session.Events.Append(employee.Id, new AuthenticatedUserHitApi(employee.Id));
             }
-            // if it is, let's see if we can find their ID from their sub claim.
-            // If we can't, "insert a new row in the employees table" (or your version of that)
-            // If we can, cool. We might want to log that this happened. though.
 
         }
         await session.SaveChangesAsync();
