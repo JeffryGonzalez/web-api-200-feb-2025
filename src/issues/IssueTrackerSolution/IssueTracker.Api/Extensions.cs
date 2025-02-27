@@ -4,6 +4,7 @@ using IssueTracker.Api.Employees.Api;
 
 using IssueTracker.Api.Employees.Services;
 using IssueTracker.Api.Middleware;
+using IssueTracker.Api.VipApiEndpoints;
 using Marten;
 using Marten.Events.Projections;
 using Npgsql;
@@ -42,6 +43,8 @@ public static class Extensions
             config.Connection(connectionString);
             config.Projections.Snapshot<EmployeeProblemReadModel>(SnapshotLifecycle.Inline);
             config.Projections.Snapshot<Employee>(SnapshotLifecycle.Inline);
+            config.Projections.Snapshot<VipIssueReadModel>(SnapshotLifecycle.Inline);
+    
             
             
 
@@ -55,6 +58,7 @@ public static class Extensions
     {
         endpoints.MapCatalog();
         endpoints.MapEmployees();
+        endpoints.MapVipApiEndpoints();
       
         return endpoints;
     }

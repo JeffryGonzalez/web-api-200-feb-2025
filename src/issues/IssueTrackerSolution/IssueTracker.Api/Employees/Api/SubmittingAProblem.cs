@@ -16,6 +16,7 @@ public static class SubmittingAProblem
     HttpContext context
     )
     {
+       
         var employeeId = await employeeIdProvider.GetEmployeeIdAsync(token);
         var problemId = Guid.NewGuid();
         var employeeProblem = new EmployeeSubmittedAProblem(problemId, employeeId, softwareId, request.Description);

@@ -10,7 +10,7 @@ public class EmployeeIdProvider(IDocumentSession session, IHttpContextAccessor c
     public async Task<Guid> GetEmployeeIdAsync(CancellationToken token = default)
     {
         var sub = context?.HttpContext?.User.FindFirstValue("sub") ??
-                  throw new ChaosException("Used in an unauthenticated request");
+                  throw new ChaosException("Used in an unauthenticated request or request without a subject claim");
         var employee = await session.Query<Employee>().Where(u => u.Sub == sub).SingleAsync(token);
         return employee.Id;
     }

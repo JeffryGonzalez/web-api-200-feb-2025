@@ -24,5 +24,7 @@ public record EmployeeProblemReadModel
             Status = "Submitted"
         };
     }
+
+    public static bool ShouldDelete(ProblemCancelledByUser _) => true;
     
 }
