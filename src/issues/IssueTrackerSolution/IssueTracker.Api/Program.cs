@@ -14,6 +14,10 @@ builder.AddIssueTrackerServices();
 
 var app = builder.Build();
 
+
+
+app.UseMiddleware<GlobalChaosExceptionHandler>();
+
 app.UseAuthentication();
 app.UseAuthorization();
 // Configure the HTTP request pipeline.
@@ -28,11 +32,10 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-//app.UseMiddleware<GlobalChaosExceptionHandler>();
-//app.UseMiddleware<AuthenticatedUserMakesARequestMiddleware>();
-app.MapIssueTracker();
+var routes = app.MapGroup("");
 
-// right here it's going call the test fixtures ConfigureServices - use that to add any missing services that just haven't been created yet.
+routes.MapIssueTracker();
+
 
 app.Run();
 
