@@ -19,14 +19,7 @@ public static class Extensions
 
         employeeGroup.MapPost("/software/{softwareId:guid}/problems", SubmittingAProblem.SubmitAsync);
            
-        
-        // TODO: Should this have the Endpoint Filter?
-        employeeGroup.MapGet("/software/{softwareId:guid}/problems", GettingProblems.GetAllProblemsAsync)
-            .AddEndpointFilter<ReturnNotFoundIfNoUserFilter>();
-        employeeGroup.MapGet("/software/{softwareId:guid}/problems/{problemId:guid}", GettingProblems.GetProblemAsync);
-        
-        employeeGroup.MapDelete("/software/{softwareId:guid}/problems/{problemId:guid}", CancellingAProblem.CancelAProblemAsync);
-
+       
         return routes;
     }
 }

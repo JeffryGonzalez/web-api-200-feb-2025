@@ -25,8 +25,4 @@ public record EmployeeProblemReadModel
         };
     }
     
-    public static bool ShouldDelete(EmployeeCancelledAProblem _) => true;
-
-    
-    
 }

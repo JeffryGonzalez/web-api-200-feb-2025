@@ -23,18 +23,18 @@ public class EmployeeSubmitsAProblem(ProblemSubmissionFixture fixture)
         var postBody = postResponse.ReadAsJson<EmployeeProblemReadModel>();
         postBody.Description.ShouldBe("Has issues");
         // etc.
-        var location = postResponse.Context.Response.Headers.Location.First()!;
-        
-        var getResponse = await fixture.Host.Scenario(api =>
-        { 
-            api.WithClaim(new Claim("sub", "byron"));
-            api.Get.Url(location);
-            api.StatusCodeShouldBe(200);
-        });
-        
-        var getBody = getResponse.ReadAsJson<EmployeeProblemReadModel>();
-        
-        getBody.ShouldBe(postBody);
+        // var location = postResponse.Context.Response.Headers.Location.First()!;
+        //
+        // var getResponse = await fixture.Host.Scenario(api =>
+        // { 
+        //     api.WithClaim(new Claim("sub", "byron"));
+        //     api.Get.Url(location);
+        //     api.StatusCodeShouldBe(200);
+        // });
+        //
+        // var getBody = getResponse.ReadAsJson<EmployeeProblemReadModel>();
+        //
+        // getBody.ShouldBe(postBody);
     }
 
     [Fact]
