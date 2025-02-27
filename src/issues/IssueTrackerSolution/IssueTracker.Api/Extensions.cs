@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using IssueTracker.Api.Catalog.Api;
 using IssueTracker.Api.Employees.Api;
-using IssueTracker.Api.Employees.Domain;
+
 using IssueTracker.Api.Employees.Services;
 using IssueTracker.Api.Middleware;
 using Marten;
@@ -19,7 +19,7 @@ public static class Extensions
         
         // .net 8 and forward - good idea.
         services.AddSingleton<TimeProvider>(_ => TimeProvider.System);
-        services.AddScoped<EmployeeRepository>();
+
         services.AddScoped<IProvideTheEmployeeId, EmployeeIdProvider>();
         services.AddAuthorization();
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -34,15 +34,14 @@ public static class Extensions
         
         var connectionString = host.Configuration.GetConnectionString("postgres") ?? throw new ChaosException("No connection string found");
 
-        var npgDataSource = NpgsqlDataSource.Create(connectionString);
         
         services.AddNpgsqlDataSource(connectionString);
 
         services.AddMarten(config =>
         {
             config.Connection(connectionString);
-            config.Projections.Snapshot<EmployeeProblem>(SnapshotLifecycle.Inline);
-            config.Projections.Snapshot<AuthenticatedUser>(SnapshotLifecycle.Inline);
+            config.Projections.Snapshot<EmployeeProblemReadModel>(SnapshotLifecycle.Inline);
+            config.Projections.Snapshot<Employee>(SnapshotLifecycle.Inline);
             
             
 
@@ -56,7 +55,7 @@ public static class Extensions
     {
         endpoints.MapCatalog();
         endpoints.MapEmployees();
-  
+      
         return endpoints;
     }
     

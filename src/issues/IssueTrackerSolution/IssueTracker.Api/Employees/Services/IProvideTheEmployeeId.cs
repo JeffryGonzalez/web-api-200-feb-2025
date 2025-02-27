@@ -1,4 +1,4 @@
-namespace IssueTracker.Api.Employees.Api;
+namespace IssueTracker.Api.Employees.Services;
 
 public interface IProvideTheEmployeeId
 {

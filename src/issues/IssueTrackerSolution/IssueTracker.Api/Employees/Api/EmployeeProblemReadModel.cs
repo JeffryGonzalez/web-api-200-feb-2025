@@ -1,6 +1,6 @@
 namespace IssueTracker.Api.Employees.Api;
 
-public record EmployeeProblem
+public record EmployeeProblemReadModel
 {
  
     public Guid Id { get; set; }
@@ -12,9 +12,9 @@ public record EmployeeProblem
     public DateTimeOffset Opened { get; set; }
 
 
-    public static EmployeeProblem Create(EmployeeSubmittedAProblem problem)
+    public static EmployeeProblemReadModel Create(EmployeeSubmittedAProblem problem)
     {
-        return new EmployeeProblem
+        return new EmployeeProblemReadModel
         {
             Id = problem.ProblemId,
             Description = problem.Description,

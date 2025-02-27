@@ -1,4 +1,5 @@
-﻿using IssueTracker.Api.Employees.Domain;
+﻿
+using IssueTracker.Api.Employees.Services;
 using Marten;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -6,7 +7,7 @@ namespace IssueTracker.Api.Employees.Api;
 
 public static class SubmittingAProblem
 {
-    public static async  Task<Ok<EmployeeProblem>> SubmitAsync(
+    public static async  Task<Created<EmployeeProblemReadModel>> SubmitAsync(
         ProblemSubmitModel request,
         Guid softwareId,
         IProvideTheEmployeeId employeeIdProvider,
@@ -22,8 +23,8 @@ public static class SubmittingAProblem
         session.Events.StartStream(problemId, employeeProblem);
         await session.SaveChangesAsync(token);
 
-        var response = await session.LoadAsync<EmployeeProblem>(problemId, token);
-        return TypedResults.Ok(response);
+        var response = await session.LoadAsync<EmployeeProblemReadModel>(problemId, token);
+        return TypedResults.Created($"/employee/software/{response!.SoftwareId}/problems/{response.Id}", response);
     }
 }
 
@@ -31,8 +32,3 @@ public static class SubmittingAProblem
 public record ProblemSubmitModel(string Description);
 
 public record EmployeeSubmittedAProblem(Guid ProblemId, Guid EmployeeId, Guid SoftwareId, string Description);
-
-public interface IProvideTheEmployeeId
-{
-    public Task<Guid> GetEmployeeIdAsync(CancellationToken token = default);
-}

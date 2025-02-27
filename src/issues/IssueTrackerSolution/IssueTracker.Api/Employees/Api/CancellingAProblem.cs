@@ -12,7 +12,7 @@ public static class CancellingAProblem
         )
     {
         // TODO: Should we verify the identity and the softwareId and all that?
-        var problem = await session.LoadAsync<EmployeeProblem>(problemId, token);
+        var problem = await session.LoadAsync<EmployeeProblemReadModel>(problemId, token);
         if (problem is null)
         {
             return TypedResults.NoContent();

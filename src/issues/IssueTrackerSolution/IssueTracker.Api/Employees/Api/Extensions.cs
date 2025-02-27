@@ -7,20 +7,25 @@ public static class Extensions
 {
     public static IEndpointRouteBuilder MapEmployees(this IEndpointRouteBuilder routes)
     {
-        var group = routes.MapGroup("employee")
+        var employeeGroup = routes.MapGroup("employee")
             .WithTags("Employees")
             .WithDescription("Employee Related Stuff")
-            .RequireAuthorization();
+            .RequireAuthorization(config =>
+            {
+                config.RequireClaim("sub");
+            })
+            
+            .AddEndpointFilter<AuthenticatedUserToEmployeeMiddleware>();
 
-        group.MapPost("/software/{softwareId:guid}/problems", SubmittingAProblem.SubmitAsync);
+        employeeGroup.MapPost("/software/{softwareId:guid}/problems", SubmittingAProblem.SubmitAsync);
            
         
         // TODO: Should this have the Endpoint Filter?
-        group.MapGet("/software/{softwareId:guid}/problems", GettingProblems.GetAllProblemsAsync)
+        employeeGroup.MapGet("/software/{softwareId:guid}/problems", GettingProblems.GetAllProblemsAsync)
             .AddEndpointFilter<ReturnNotFoundIfNoUserFilter>();
-        group.MapGet("/software/{softwareId:guid}/problems/{problemId:guid}", GettingProblems.GetProblemAsync);
+        employeeGroup.MapGet("/software/{softwareId:guid}/problems/{problemId:guid}", GettingProblems.GetProblemAsync);
         
-        group.MapDelete("/software/{softwareId:guid}/problems/{problemId:guid}", CancellingAProblem.CancelAProblemAsync);
+        employeeGroup.MapDelete("/software/{softwareId:guid}/problems/{problemId:guid}", CancellingAProblem.CancelAProblemAsync);
 
         return routes;
     }

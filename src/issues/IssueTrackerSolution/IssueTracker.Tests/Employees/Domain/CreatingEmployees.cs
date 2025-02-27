@@ -6,7 +6,7 @@ namespace IssueTracker.Tests.Employees.Domain;
 
 [Trait("Category", "UnitIntegration")] // this is metadata so we can run just some of these at a time.
 [Collection("UnitIntegration")] // everything here should use the same database as everything else in this "collection"
-public class AuthenticatingUsers(UnitIntegrationTestFixture fixture) : IAsyncLifetime
+public class CreatingEmployees(UnitIntegrationTestFixture fixture) : IAsyncLifetime
 {
     private readonly string _newSub = "joey";
     private readonly Guid _newId = Guid.NewGuid();

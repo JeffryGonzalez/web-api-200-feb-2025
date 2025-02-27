@@ -11,7 +11,7 @@ public class EmployeeIdProvider(IDocumentSession session, IHttpContextAccessor c
     {
         var sub = context?.HttpContext?.User.FindFirstValue("sub") ??
                   throw new ChaosException("Used in an unauthenticated request");
-        var employee = await session.Query<AuthenticatedUser>().Where(u => u.Sub == sub).SingleAsync(token);
+        var employee = await session.Query<Employee>().Where(u => u.Sub == sub).SingleAsync(token);
         return employee.Id;
     }
 }
