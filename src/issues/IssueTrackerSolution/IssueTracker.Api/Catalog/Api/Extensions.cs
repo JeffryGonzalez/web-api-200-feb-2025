@@ -9,7 +9,7 @@ public static class Extensions
     public static IEndpointRouteBuilder MapCatalog(this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet("/catalog", GetCatalogAsync).WithTags("Catalog").WithDescription("Get all catalog items")
-            .WithDisplayName("Catalog Items");
+            .WithDisplayName("Catalog Items").RequireAuthorization();
 
         return endpoints;
     }

@@ -4,6 +4,7 @@ using IssueTracker.Api.Employees.Api;
 
 using IssueTracker.Api.Employees.Services;
 using IssueTracker.Api.Middleware;
+using IssueTracker.Api.Techs;
 using IssueTracker.Api.VipApiEndpoints;
 using Marten;
 using Marten.Events.Projections;
@@ -69,6 +70,7 @@ public static class Extensions
         endpoints.MapCatalog();
         endpoints.MapEmployees();
         endpoints.MapVipApiEndpoints();
+        endpoints.MapTechs();
 
         return endpoints;
     }

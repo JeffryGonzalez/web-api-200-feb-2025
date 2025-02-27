@@ -11,7 +11,7 @@ namespace IssueTracker.Tests.Fixtures;
 
 public abstract class HostedUnitIntegrationTestFixture : IAsyncLifetime
 {
-    public DocumentStore? Store { get; private set; }
+    public IDocumentStore? Store { get; private set; }
     public IAlbaHost Host { get; private set; } = null!;
     private PostgreSqlContainer _container = null!;
 
@@ -25,13 +25,13 @@ public abstract class HostedUnitIntegrationTestFixture : IAsyncLifetime
             await _container.StartAsync();
             await _container.ExecScriptAsync(Scripts.SeedCatalog);
 
-            Store = DocumentStore.For(opts =>
-            {
-                opts.Connection(_container.GetConnectionString());
-                opts.AutoCreateSchemaObjects = AutoCreate.All;
-                opts.GeneratedCodeMode = TypeLoadMode.Auto;
-                opts.ApplicationAssembly = GetType().Assembly;
-            });
+            //Store = DocumentStore.For(opts =>
+            //{
+            //    opts.Connection(_container.GetConnectionString());
+            //    opts.AutoCreateSchemaObjects = AutoCreate.All;
+            //    opts.GeneratedCodeMode = TypeLoadMode.Auto;
+            //    opts.ApplicationAssembly = GetType().Assembly;
+            //});
         }
 
         Host = await AlbaHost.For<Program>(config =>
@@ -43,8 +43,10 @@ public abstract class HostedUnitIntegrationTestFixture : IAsyncLifetime
 
             config.ConfigureServices(ConfigureServices);
             config.ConfigureTestServices(ConfigureTestServices);
+           
         }, GetAuthenticationStub());
 
+        Store = Host.DocumentStore();
         await BeforeAsync();
     }
 
@@ -68,6 +70,7 @@ public abstract class HostedUnitIntegrationTestFixture : IAsyncLifetime
     /// <param name="services"></param>
     protected virtual void ConfigureServices(IServiceCollection services)
     {
+       
     }
 
     /// <summary>
@@ -85,7 +88,7 @@ public abstract class HostedUnitIntegrationTestFixture : IAsyncLifetime
     {
         if (UseTestContainer)
         {
-            await Store!.DisposeAsync();
+           
             await _container.DisposeAsync();
         }
 
